@@ -14,3 +14,7 @@ FROM mirror.gcr.io/n8nio/n8n:2.48.4
 # cannot bind port 80. Vercel routes traffic to $PORT, so set PORT=5678 in the
 # Vercel project's environment variables.
 ENV N8N_PORT=5678
+
+# Bind on all interfaces so the platform's health probe on 127.0.0.1 reaches the
+# server, and so n8n does not wait on the database before opening the port.
+ENV N8N_LISTEN_ADDRESS=0.0.0.0
