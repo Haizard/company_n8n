@@ -1,0 +1,12 @@
+# Vercel container entrypoint for n8n.
+#
+# The repository's own Dockerfile (docker/images/n8n/Dockerfile) cannot be built
+# by Vercel: it copies the `compiled/` artifact from `pnpm build:deploy` and
+# needs the BUILDER_IMAGE / RUNTIME_IMAGE build arguments from
+# docker/docker-bake.hcl. Start from the published image instead.
+FROM docker.n8n.io/n8nio/n8n:2.48.4
+
+# n8n listens on N8N_PORT (default 5678) and runs as a non-root user, so it
+# cannot bind port 80. Vercel routes traffic to $PORT, so set PORT=5678 in the
+# Vercel project's environment variables.
+ENV N8N_PORT=5678
